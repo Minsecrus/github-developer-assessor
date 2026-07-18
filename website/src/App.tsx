@@ -594,11 +594,9 @@ export default function App() {
               style={{ backgroundColor: "var(--color-accent)" }}
             />
           </span>
-          <span>evidence-first · role-aware</span>
+          <span>MIT License · © 2026 Minsecrus</span>
         </div>
         <div className="flex items-center gap-2 sm:gap-3">
-          <span className="hidden sm:inline">not a popularity ranker</span>
-          <span className="hidden sm:inline">·</span>
           <span>
             <kbd
               className="rounded border px-1.5 py-0.5 text-[9px]"
