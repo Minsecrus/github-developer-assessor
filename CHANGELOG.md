@@ -21,9 +21,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Project attribution ranges, diminishing returns, ecosystem normalization, and anti-double-counting rules.
 - Capability-band gates, high-depth specialist handling, role-conditioned profile scores, cohort comparison rules, and rank-sensitivity checks.
 - Versioned calibration-packet protocol and an initial registry of candidate—not yet normative—representative accounts from the pilot assessments.
+- Provisional, evidence-linked E/S/I/T/R packets for every retained candidate
+  anchor, including the `liyupi` developer-education packet and the
+  `Sunrisepeak` modern-C++ tooling and community-maintainer packet, plus the
+  `sheepbox8646` multi-agent-platform system-owner packet.
 - Machine-readable evidence and assessment schemas designed for weak supervision, pairwise labeling, active learning, and axis-specific models.
 - Explicit attribution guidance for AI- or bot-assisted implementation.
 - Domain-fair validation guidance for embedded, hardware, systems, compiler, application, library, and educational work.
+- Optional authenticated assessment of user-selected private GitHub repositories,
+  including repository selection, private artifact provenance, and evidence-
+  boundary reporting.
 
 ### Changed
 
@@ -31,6 +38,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Made impact a scored, attributable construct instead of treating all popularity signals only as navigation hints.
 - Made technology scarcity optional and cohort-relative, separate from engineering difficulty, demand, compensation, and market value.
 - Expanded the report template to expose dimension evidence, attribution, confidence components, unknowns, profile weights, and comparison stability.
+- Replaced the public-only hard boundary with public-by-default behavior plus
+  explicitly authorized and selected private evidence; named calibration anchors
+  remain public-only.
 
 ### Fixed
 

@@ -14,7 +14,11 @@ Useful contributions include:
 - report and structured-schema improvements;
 - corrections that strengthen privacy, fairness, or auditability.
 
-Keep the skill tool-agnostic and focused on publicly demonstrated evidence. Do not add instructions for accessing private data, inferring sensitive personal characteristics, or turning reputation into a capability proxy.
+Keep the skill tool-agnostic and focused on inspectable GitHub evidence. Public
+evidence is the default; private evidence is allowed only when the user supplies
+a token and explicitly selects the repositories. Do not broaden private access
+beyond that selection, infer sensitive personal characteristics, or turn
+reputation into a capability proxy.
 
 ## File responsibilities
 
@@ -22,6 +26,9 @@ Keep the skill tool-agnostic and focused on publicly demonstrated evidence. Do n
 - Put dimension definitions, weights, and anchors in `references/rubric.md`.
 - Put impact attribution and scarcity safeguards in `references/impact-and-scarcity.md`.
 - Put bands, profile composites, cohorts, and anchors in `references/calibration.md`.
+- Put provisional named-anchor evidence and score inputs in
+  `references/candidate-anchor-packets.md`; keep activation status in
+  `references/calibration.md`.
 - Put machine-readable fields and learning-system guidance in `references/evidence-schema.md`.
 - Put output structure in `references/report-template.md`.
 
@@ -38,9 +45,11 @@ Every change must preserve these boundaries:
 5. Missing evidence is unknown, not zero or negative evidence.
 6. Organization membership, commit counts, followers, stars, employer prestige, and association with a famous person do not establish technical depth.
 7. Automation changes attribution; it does not erase human specification, decisions, verification, or accountability when those are evidenced.
-8. Every scored claim must trace to a public artifact or be marked as an inference with confidence.
+8. Every scored claim must trace to an inspectable artifact. Private artifacts
+   require a visibility marker and stable repository, commit, PR, issue, release,
+   or evidence ID even when no publicly accessible URL exists.
 9. `unknown` is outside the 0–5 scale; 0 requires applicable inspected evidence
-   and cannot represent missing public work.
+   and cannot represent missing or inaccessible evidence.
 10. Anchors use whole or half points only. Scores of 4 and 5 require the evidence
     breadth defined in `references/rubric.md` or a documented exception.
 
@@ -56,6 +65,9 @@ A named person becomes an active calibration anchor only through a frozen eviden
 
 Do not use real people as negative examples. Prefer synthetic archetypes for lower-band boundaries. Keep candidate anchors explicitly separate from active anchors.
 
+Named calibration anchors remain public-only. Do not place private evidence in a
+candidate or active anchor packet.
+
 ## Data and model contributions
 
 - Label evidence artifacts before person-level totals.
@@ -63,6 +75,8 @@ Do not use real people as negative examples. Prefer synthetic archetypes for low
 - Keep human, heuristic, and pseudo-label provenance visible.
 - Split evaluation by time and repository family to avoid leakage.
 - Do not expose identity or popularity fields to models that estimate E.
+- Do not include private evidence in shared benchmark or training exports unless
+  that use was separately authorized.
 - Report subgroup and domain coverage, calibration, abstention quality, and rank stability.
 - Do not describe a heuristic, prompt, or unlabeled score as a validated model.
 
@@ -71,7 +85,8 @@ Do not use real people as negative examples. Prefer synthetic archetypes for low
 1. Read `SKILL.md` and every affected file under `references/`.
 2. Keep procedural instructions concise and imperative.
 3. Preserve the distinction between observation, attribution, inference, and score.
-4. Ensure public URLs can support every new assessment claim, or mark the claim unknown.
+4. Ensure every claim has a public URL or a private visibility marker and stable
+   artifact reference; otherwise mark the claim unknown.
 5. Update `CHANGELOG.md` for user-visible changes.
 6. Explain whether the change affects score comparability with earlier rubric versions.
 
@@ -87,11 +102,14 @@ Before proposing a change:
 - verify that incomplete axes use `unknown` or an interval without silent
   renormalization;
 - search for contradictions between the workflow, rubric, calibration rules, evidence schema, and report template;
+- verify that public-only behavior still works without a token and that private
+  contents are not inspected before repository selection;
 - run a sensitivity check on at least one public evidence packet when score behavior changes;
 - have two independent reviewers score at least one representative packet when
   behavioral anchors change, then record exact agreement, agreement within 0.5,
   and mean absolute difference by affected subdimension;
-- avoid publishing unnecessary personal data in test artifacts.
+- avoid publishing private source, credentials, or unnecessary personal data in
+  test artifacts.
 
 If the Codex skill-creator utilities are available, run:
 

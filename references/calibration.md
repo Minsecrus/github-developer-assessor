@@ -23,7 +23,7 @@ Bands describe demonstrated engineering scope. They are not job titles, compensa
 
 | Band | Quantitative gate | Required qualitative evidence |
 |---|---:|---|
-| Insufficient public evidence | E is unknown or its interval crosses the Contributor gate | Public evidence cannot support a reliable demonstrated-scope band. This is not a negative capability judgment. |
+| Insufficient evidence | E is unknown or its interval crosses the Contributor gate | The stated evidence boundary cannot support a reliable demonstrated-scope band. This is not a negative capability judgment. |
 | Exploratory | E point estimate < 40, or E interval upper bound < 40 | Inspected evidence directly shows learning or exploratory artifacts, while independent validated delivery is not yet established. |
 | Contributor | E >= 40 | At least one attributable, validated, scoped contribution. |
 | Independent builder | E >= 55 and S >= 35 | Repeated end-to-end delivery or clear ownership of a non-trivial component. |
@@ -34,7 +34,7 @@ The gates are necessary, not sufficient. Apply a gate to an interval only when
 its lower bound satisfies the threshold. If a credible interval crosses a gate,
 report the adjacent possible bands and the evidence needed to resolve them.
 `Exploratory` requires direct inspectable evidence of exploratory behavior;
-mere evidence scarcity uses `Insufficient public evidence` instead. A high E
+mere evidence scarcity uses `Insufficient evidence` instead. A high E
 score with limited stewardship should be reported as a **high-depth
 contributor** or **technical specialist**, not forced into a lower engineering
 interpretation or promoted to maintainer.
@@ -43,22 +43,33 @@ Impact never substitutes for an E or S gate. A popular project can increase I; i
 
 ## 3. Candidate anchor registry
 
-Named anchors are useful only when backed by frozen, reproducible evidence packets. The following names came from the initial 2026-07-18 pilot and are **candidates for future calibration**, not active normative anchors:
+Named anchors are useful only when backed by frozen, reproducible evidence
+packets. The following names came from the 2026-07-18 pilot. Their packets now
+exist, but they have not completed formal independent activation review and
+remain **candidate anchors**, not active normative anchors:
 
-| Candidate packet | Intended lens | Candidate use |
-|---|---|---|
-| torvalds | systems / maintainer | Maintainer or technical-leader packet |
-| gaogaotiantian | Python runtime / maintainer | Maintainer packet |
-| mattpocock | TypeScript developer tools / educator-maintainer | Maintainer and ecosystem-impact packet |
-| TPPPP72 | compiler / systems | System-owner packet |
-| Minsecrus | platform / full-stack | System-owner packet |
-| zuoliangyu | embedded developer tools | System-owner packet |
-| yuemingruoan | graphics / macOS | System-owner packet |
-| lvy010 | general software / emerging contributor | Boundary and high-trajectory packet |
-| AzidoPP | embedded / hardware | Independent-builder packet |
-| SRInternet | application development | Independent-builder packet |
+Named calibration packets remain public-only so every reviewer can inspect the
+same artifacts. Private evidence may inform an individual assessment but cannot
+enter a candidate or active anchor packet.
 
-Do not cite one of these people as a benchmark until its packet has been created and independently reviewed under the current rubric. Do not use real people as negative anchors; use synthetic archetypes for lower bands.
+| Candidate packet | Intended lens | E | S | I | T | R | Confidence | Candidate use |
+|---|---|---:|---:|---:|---:|---:|---|---|
+| torvalds | systems / kernel maintainer | 98 | 98 | 94 | 70 | 90 | High | Maintainer or technical-leader packet |
+| gaogaotiantian | Python runtime and diagnostics maintainer | 90 | 93 | 89 | 95 | 88 | High | Maintainer packet |
+| mattpocock | TypeScript developer tools / educator-maintainer | 78 | 83 | 87 | 85 | 63 | Medium | Maintainer and ecosystem-impact packet; S sensitivity 77–83 |
+| lvy010 | systems and developer tools / emerging contributor | 74 | 53 | 44 | 80 | unknown (70 diagnostic) | Medium | Independent-builder and high-trajectory packet; R confidence low |
+| liyupi | full-stack developer education / community maintainer | 54 | 66 | 60 | 60 | 61 | Medium | Contributor-to-independent-builder boundary and education-impact packet |
+| Sunrisepeak | modern C++ build and package tooling / community maintainer | 78 | 78 | 64 | 78 | unknown (69 diagnostic) | Medium | Maintainer packet with AI-attribution, self-review, and concentrated-ecosystem sensitivity |
+| sheepbox8646 | multi-agent platform / isolated-workspace system owner | 74 | 73 | 69 | 73 | unknown (71 diagnostic) | Medium | System-owner packet with explicit AI attribution, release governance, and young-project durability sensitivity |
+
+Scores are whole-number displays calculated from whole or half subdimension
+anchors. See [`candidate-anchor-packets.md`](candidate-anchor-packets.md) for
+the inputs, evidence boundary, contradictions, and scarcity cohorts. In
+particular, R is role-conditioned and is **not comparable across rows**.
+
+Until a packet has been independently reviewed, use it only as a provisional
+challenge reference and disclose that status. Do not use real people as
+negative anchors; use synthetic archetypes for lower bands.
 
 ## 4. Profile-weighted composites
 
@@ -66,7 +77,7 @@ The axes are the primary output. A composite is optional and must answer a state
 
 | Profile | E | S | I | T | Typical question |
 |---|---:|---:|---:|---:|---|
-| general | 55% | 20% | 15% | 10% | What is the balanced public-evidence assessment? |
+| general | 55% | 20% | 15% | 10% | What is the balanced assessment within the stated evidence boundary? |
 | senior-ic | 65% | 15% | 10% | 10% | How strong is the individual technical contribution? |
 | staff | 50% | 25% | 20% | 5% | Can this person shape systems and multiply others? |
 | maintainer | 40% | 30% | 25% | 5% | Can this person sustain a shared project and ecosystem? |
@@ -96,7 +107,13 @@ A percentile or relative label is valid only when the cohort is defined. Record:
 - geography if market claims are involved;
 - snapshot date and time window;
 - sample inclusion rules and sample size;
+- public/private evidence-selection rule;
 - missing-data policy.
+
+Exact percentile or rank comparisons require the same evidence-selection rule
+for every account. If one account includes selected private evidence and another
+does not, disclose that they are not directly comparable and report separate
+profiles, broad tiers, or intervals instead of a precise rank.
 
 Prefer dimension-level percentiles over a single total. Use log transforms for long-tailed counts, winsorize obvious outliers, and apply Bayesian or empirical shrinkage to tiny samples. Report the raw observation alongside the normalized value.
 
@@ -121,7 +138,8 @@ Run these checks before publishing a ranked table:
 - remove the single highest-impact project;
 - cap project-level impact using the diminishing-returns rule;
 - compare 12-, 24-, and 36-month windows when feasible;
-- check whether identity uncertainty or private work would change the conclusion.
+- check whether identity uncertainty or adding/removing authenticated private
+  evidence would change the conclusion.
 
 If rank order changes materially, report a tier or interval instead of a precise ordinal ranking.
 

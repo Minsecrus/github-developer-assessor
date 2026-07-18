@@ -11,7 +11,9 @@
 - Assessment profile: `[general / senior-ic / staff / maintainer / high-potential / open-source-impact]`
 - Expected level: `[optional comparison target]`
 - Cohort: `[optional; define population, date, and sample size, or not assessed]`
-- Evidence boundary: `[public GitHub only, plus any explicitly listed external sources]`
+- Evidence mode: `[public-only / public plus selected private repositories]`
+- Selected private repositories: `[none / names or user-approved aliases]`
+- Other evidence boundary: `[any explicitly listed external sources or exclusions]`
 
 ## Executive assessment
 
@@ -27,7 +29,7 @@
 | Development trajectory (T) | /100 or unknown | | Direction of growth within the stated window | |
 | Technology scarcity (R) | /100, unknown, or not assessed | | Cohort-relative context; not capability | |
 
-- Capability band: `Insufficient public evidence / Exploratory / Contributor / Independent builder / System owner / Maintainer or technical leader`
+- Capability band: `Insufficient evidence / Exploratory / Contributor / Independent builder / System owner / Maintainer or technical leader`
 - Specialist modifier: `none / high-depth contributor / technical specialist`
 - Overall confidence: `High / Medium / Low ([0–1] if machine-readable output is used)`
 - Confidence basis: `coverage, attribution, sampling stability, and identity certainty`
@@ -38,7 +40,7 @@ For each axis, state `known_weight`. Use a point estimate only when all weighted
 subdimensions are scored. At 60–99 known weight, report an interval without
 renormalizing unknown dimensions. Below 60, report `unknown`. If an interval
 crosses a capability-band gate, report the adjacent possible bands rather than
-choosing one. `Insufficient public evidence` is distinct from directly observed
+choosing one. `Insufficient evidence` is distinct from directly observed
 exploratory behavior.
 
 For every scored subdimension record:
@@ -130,7 +132,8 @@ Call this a **profile score**, not an engineering score. Never compare scores pr
 
 ### `[repository or artifact]`
 
-- URL: `[URL]`
+- Visibility: `public / private`
+- URL or stable artifact reference: `[URL / repository@commit / PR or issue ID]`
 
 - Classification: `personal-original / organization-owned / external contribution / fork / educational / other`
 - Observed role: `implementation / decision / verification / accountability / review / release / governance`
@@ -140,7 +143,7 @@ Call this a **profile score**, not an engineering score. Never compare scores pr
 - Validation and outcome:
 - Impact type: `attention / adoption / authority / technical leverage / community leverage / knowledge diffusion`
 - Evidence:
-  - `[commit / PR / issue / release / code / downstream-use URL]` — `observation and supported claim`
+  - `[commit / PR / issue / release / code / downstream-use URL or stable artifact reference]` — `observation and supported claim`
 - Contradictory evidence or limitations:
 
 Repeat for 3–5 projects in standard mode and enough artifacts to stabilize the result in deep mode.
@@ -151,7 +154,8 @@ For each relevant organization or upstream project:
 
 ### `[organization or repository]`
 
-- URL: `[URL]`
+- Visibility: `public / private`
+- URL or stable artifact reference: `[URL / repository@commit / evidence ID]`
 
 - Context: `company / community / classroom / personal group / uncertain`
 - Verified artifacts: `PRs, reviews, issues, commits, releases, governance records`
@@ -180,10 +184,10 @@ If ordering is unstable, report tiers or intervals rather than a precise rank.
 
 ## Risks, contradictions, and unknowns
 
-- `Missing due to private work, inaccessible repositories, or evidence outside the window`
+- `Missing due to unselected or inaccessible repositories, offline work, or evidence outside the window`
 - `Inspectably negative or contradictory evidence`
 - `Attribution or identity ambiguity`
-- `Role-relevant area not publicly demonstrated`
+- `Role-relevant area not demonstrated within the stated evidence boundary`
 - `Claim most sensitive to sampling or scoring choices`
 
 Keep missing evidence separate from negative evidence.
@@ -195,9 +199,18 @@ Tie every question to an observed artifact:
 1. “In PR X, which decisions were yours, what alternatives did you reject, and how did you verify the result?”
 2. “Repository Y changed architecture between releases. What constraint forced the redesign?”
 3. “How would you reproduce and test the concurrency, compatibility, or physical boundary visible in module Z?”
-4. “Which production or user constraints are absent from this public implementation?”
+4. “Which production or user constraints are absent from the inspected implementation?”
 5. “Where did automation assist, and which specification, review, and accountability steps remained yours?”
 
 ## Limitations
 
-This report evaluates the stated public evidence boundary. It may omit private repositories, company work, pair programming, unlinked accounts, offline engineering, and contributions obscured by repository history or automation. Popularity, technology rarity, and organizational association are not substitutes for inspectable engineering evidence. The report should inform, not replace, technical interviews, work samples, and reference checks.
+This report evaluates only the stated evidence boundary. A public-only report may
+omit private repositories and company work; an authenticated report still omits
+unselected or inaccessible repositories. Either mode may omit pair programming,
+unlinked accounts, offline engineering, and contributions obscured by repository
+history or automation. Private artifact references may not be accessible to
+every report reader; state that as a reader-verifiability limitation without
+treating private visibility itself as weaker technical evidence.
+Popularity, technology rarity, and organizational association are not
+substitutes for inspectable engineering evidence. The report should inform, not
+replace, technical interviews, work samples, and reference checks.

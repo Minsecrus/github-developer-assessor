@@ -12,6 +12,7 @@ Each evidence item should follow this conceptual JSON shape. Implementations may
 {
   "id": "ev-001",
   "url": "https://github.com/org/repo/pull/123",
+  "artifact_ref": "org/repo#pull-123@abc1234",
   "evidence_type": "pull_request",
   "repository": "org/repo",
   "visibility": "public",
@@ -47,6 +48,12 @@ Each evidence item should follow this conceptual JSON shape. Implementations may
 ### Required distinctions
 
 - `event_date` is when the work happened; `observed_at` is when the assessor captured it.
+- `visibility` is `public` or `private`. Private evidence is valid when it came
+  from a user-authorized selected repository; visibility is not an evidence-
+  quality score.
+- `artifact_ref` is a stable repository plus commit, PR, issue, release, or file
+  locator. It is required when a private URL is omitted or will not be available
+  to every report reader.
 - `classification` describes what the artifact can support; it is not a score.
 - attribution shares are intervals, not invented precision.
 - unknown automation use is `unknown`, not `none`.
@@ -57,11 +64,16 @@ Each evidence item should follow this conceptual JSON shape. Implementations may
 
 ```json
 {
-  "schema_version": "2.0",
+  "schema_version": "2.1",
   "rubric_version": "2.0",
   "subject": "github-login",
   "snapshot_date": "2026-07-18",
   "time_window_months": 24,
+  "evidence_boundary": {
+    "mode": "public_only",
+    "selected_private_repositories": [],
+    "private_selection": "none"
+  },
   "role_lenses": ["backend", "maintainer"],
   "profile": "maintainer",
   "cohort": null,
@@ -184,6 +196,13 @@ null anchor with an explanation; it is never zero. Anchors are whole or half
 points only. Record evidence breadth and any exception to the normal
 single-artifact cap so high anchors remain auditable.
 
+`evidence_boundary.mode` is `public_only` or
+`public_plus_selected_private`. In private mode,
+`selected_private_repositories` contains the selected names or user-approved
+aliases and `private_selection` records `explicit_in_prompt` or
+`selected_after_listing`. Never store the token in an evidence item, assessment
+record, export, or limitation field.
+
 ## 3. Labels for assisted assessment
 
 For learning systems, label evidence artifacts before labeling people. Recommended supervised units are:
@@ -233,7 +252,11 @@ The target is consistent evidence interpretation, not imitation of every histori
 
 - Store only evidence necessary for the assessment purpose.
 - Preserve source links, capture dates, and deletion or correction status.
-- Distinguish public facts from assessor inference.
+- Distinguish source observations and their visibility from assessor inference.
+- Mark private artifacts and keep them out of public calibration packets,
+  shared benchmark datasets, and training exports unless the user separately
+  authorizes that use.
+- Do not store authentication tokens in evidence records or exports.
 - Support subject correction and identity-disambiguation notes.
 - Do not infer protected traits or personal characteristics.
 - Version schemas, rubric weights, weak labelers, and model outputs.
@@ -244,7 +267,7 @@ The target is consistent evidence interpretation, not imitation of every histori
 When JSON is impractical, use one row per evidence-to-dimension judgment:
 
 ```text
-assessment_id,evidence_id,subject,snapshot_date,role_lens,axis,dimension,anchor_0_5,weight,attribution_low,attribution_high,confidence,url
+assessment_id,evidence_id,subject,snapshot_date,role_lens,axis,dimension,anchor_0_5,weight,attribution_low,attribution_high,confidence,visibility,artifact_ref,url
 ```
 
 Keep person-level totals in a separate table. This prevents aggregation from erasing the evidence provenance needed for audit and relabeling.

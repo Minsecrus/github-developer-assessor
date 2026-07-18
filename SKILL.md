@@ -1,15 +1,17 @@
 ---
 name: github-developer-assessor
-description: Evidence-first, role-aware assessment of engineering capability, technical stewardship, open-source impact, and development trajectory from a public GitHub account. Use when evaluating or comparing developers, reviewing open-source experience, calibrating hiring evidence, or preparing technical interview questions. Separates criterion-referenced engineering ability from relative rank, ecosystem influence, technology scarcity, popularity, and evidence confidence.
+description: Evidence-first, role-aware assessment of engineering capability, technical stewardship, ecosystem impact, and development trajectory from a GitHub account, using public evidence by default and user-authorized selected private repositories when a token is provided. Use when evaluating or comparing developers, reviewing GitHub experience, calibrating hiring evidence, or preparing technical interview questions. Separates criterion-referenced engineering ability from relative rank, ecosystem influence, technology scarcity, popularity, and evidence confidence.
 ---
 
 # GitHub Developer Assessor
 
 ## Purpose
 
-Assess what a developer has **publicly demonstrated** on GitHub. Produce a
-traceable profile based on code, contribution history, reviews, releases,
-maintenance, adoption, and governance evidence.
+Assess what a developer has demonstrated on GitHub within a stated evidence
+boundary. Use public evidence by default and optionally include private
+repositories that the user authorizes and selects. Produce a traceable profile
+based on code, contribution history, reviews, releases, maintenance, adoption,
+and governance evidence.
 
 Treat engineering capability as a criterion-referenced measure: the same
 evidence should receive the same capability score regardless of who else is in
@@ -17,8 +19,8 @@ the comparison set. Report cohort rank, ecosystem impact, trajectory, scarcity,
 and confidence separately.
 
 This skill does not measure a person's complete ability or market value.
-Private work, offline engineering, inaccessible organizations, and unlinked
-identities may be absent.
+Unselected or inaccessible private work, offline engineering, inaccessible
+organizations, and unlinked identities may be absent.
 
 ## Inputs
 
@@ -40,6 +42,12 @@ Optional:
   `high-potential`, or `open-source-impact`. Default: `general`.
 - `known_context`: Candidate-provided aliases, project descriptions, resume
   claims, or repository links. Label these as supplied context until verified.
+- `github_token`: Optional GitHub API token supplied by the user in the current
+  conversation to authorize access to private repositories. Never reproduce the
+  token in evidence, reports, commands shown to the user, or saved files.
+- `private_repositories`: Optional private repository names or URLs. When a
+  token is supplied without this list, enumerate accessible private repositories
+  and wait for the user to select which ones may be inspected.
 - `include_scarcity`: Whether to estimate a cohort-relative technology scarcity
   index. Default: false unless the user asks about rarity or market value.
 
@@ -52,13 +60,19 @@ Read the references that apply before scoring:
   comparisons, impact claims, scarcity, or market-value questions.
 - Read `references/calibration.md` for comparisons, capability bands,
   representative anchors, percentiles, or a composite score.
+- Read `references/candidate-anchor-packets.md` only when applying or auditing
+  a named candidate anchor. These packets are provisional until independently
+  reviewed; do not treat their scores as normative benchmarks.
 - Read `references/evidence-schema.md` when producing machine-readable output,
-  collecting a benchmark dataset, or automating evidence classification.
+  collecting a benchmark dataset, automating evidence classification, or using
+  private evidence.
 
 ## Non-negotiable rules
 
-1. Use public evidence only. Do not access private repositories, hidden
-   endpoints, leaked credentials, or non-public data.
+1. Use public evidence by default. Access private repositories only through a
+   token the user supplied for this assessment and only after the user selected
+   the repositories. Never use leaked credentials, hidden endpoints, or private
+   data outside the selected scope.
 2. Separate engineering capability (E), stewardship (S), ecosystem impact (I),
    trajectory (T), optional scarcity (R), and evidence confidence (C).
 3. Never call a role-conditioned composite score an absolute engineering score.
@@ -82,9 +96,11 @@ Read the references that apply before scoring:
 12. Do not infer market value without external demand, location, and role data.
     Report it as unknown when those inputs are absent.
 13. Cite every material conclusion with a repository, file, commit, PR, issue,
-    review, release, dependency, registry, or discussion URL when possible.
-14. Mark missing or inaccessible evidence as unknown. Absence of public evidence
-    is not evidence of weak ability.
+    review, release, dependency, registry, or discussion URL when possible. For
+    private evidence, record a stable repository, commit, PR, or evidence ID and
+    mark its visibility instead of pretending the reference is public.
+14. Mark missing or inaccessible evidence as unknown. Absence of accessible
+    evidence is not evidence of weak ability.
 15. Report confidence separately. Do not publish a precise composite when
     identity, attribution, or more than two required axes are inadequately
     evidenced.
@@ -94,6 +110,39 @@ Read the references that apply before scoring:
 17. Use only whole or half anchors and obey the evidence-breadth and axis
     completeness rules in `references/rubric.md`. Do not silently renormalize
     unknown subdimensions.
+
+## Optional private repository workflow
+
+When the user supplies `github_token`:
+
+1. Authenticate using the available GitHub API or CLI capability without
+   echoing the token or persisting it in the assessment artifacts.
+2. If `private_repositories` is absent, list the accessible private repositories
+   with concise selection context such as owner/name, primary language, archive
+   status, and last update. Paginate or group a long list. Do not inspect private
+   repository contents before the user selects repositories.
+3. If the user supplied both the token and explicit repository names, treat
+   those names as the selection and proceed without asking again.
+4. Inspect only the selected repositories. Mark every resulting evidence item
+   as `private` and retain a stable artifact reference such as repository plus
+   commit SHA, PR number, issue number, or release tag.
+5. Apply the same attribution, behavioral anchors, evidence-breadth rules, and
+   negative-evidence rules used for public artifacts. Private visibility neither
+   raises nor lowers an artifact's technical strength.
+6. Do not infer ecosystem adoption from private repository existence alone.
+   Score I only from inspectable use, leverage, authority, community, knowledge,
+   or durability evidence within the authorized boundary.
+7. If authentication fails or cannot reach a selected repository, state the
+   inaccessible scope and continue with public evidence unless the user asks to
+   retry.
+
+If `private_repositories` is supplied without `github_token`, request the token
+before inspecting those repositories. If the user does not provide it, continue
+public-only and treat the repository names only as unverified supplied context.
+
+For comparisons, use the same public/private evidence-selection rule for every
+account or disclose that the results are not directly comparable. Candidate
+calibration anchors remain public-evidence packets.
 
 ## Assessment modes
 
@@ -130,7 +179,11 @@ Read the references that apply before scoring:
 ### 1. Normalize scope
 
 Record the canonical account, target role, expected level, assessment profile,
-depth, time window, assessment date, and requested comparison cohort.
+depth, time window, assessment date, requested comparison cohort, evidence mode,
+and selected private repositories or aliases.
+
+When a token is present, complete the optional private repository workflow
+before building the evidence ledger.
 
 If the account is inaccessible or identity is materially ambiguous, stop or
 limit the report and explain why.
@@ -142,6 +195,7 @@ Collect candidate evidence from:
 - pinned and recently active non-fork repositories;
 - long-lived projects and release history;
 - organization repositories with verified contributions;
+- user-selected private repositories when authorized;
 - external PRs and reviews;
 - issues, discussions, triage, and user support;
 - package registries, dependency graphs, extension stores, or official adoption;
@@ -294,6 +348,10 @@ Use `references/report-template.md`. Include:
 10. evidence-derived interview questions;
 11. limitations.
 
+State whether the report is public-only or includes selected private evidence.
+List the selected private repositories by name or user-approved alias, mark
+private artifact references, and never include the authentication token.
+
 ## Final quality check
 
 Before returning an assessment, verify:
@@ -312,3 +370,6 @@ Before returning an assessment, verify:
   missing evidence remained unknown.
 - Every 4 or 5 anchor satisfies the evidence-breadth requirement or documents a
   justified exception.
+- Private evidence came only from repositories explicitly selected by the user.
+- The evidence boundary and every private artifact's visibility are reported,
+  and the authentication token is not reproduced in the output.

@@ -113,7 +113,7 @@ const PHILOSOPHY_ITEMS = [
   },
   {
     label: "Absence ≠ Absence of Skill",
-    desc: "Missing public evidence is not evidence of missing ability.",
+    desc: "Missing or unselected evidence is not evidence of missing ability.",
   },
   {
     label: "AI Attribution",
@@ -391,11 +391,11 @@ function InstructionsModal({ onClose }: { onClose: () => void }) {
         <div className="space-y-4 text-sm leading-relaxed" style={{ color: "var(--color-fg-muted)" }}>
           <p>
             <strong style={{ color: "var(--color-fg)" }}>GitHub Developer Assessor</strong> is an
-            evidence-first, role-aware evaluation tool. It analyzes publicly available GitHub
-            artifacts to assess a developer's demonstrated engineering capability, stewardship,
-            ecosystem impact, growth trajectory, and more.
+            evidence-first, role-aware Agent Skill. It analyzes GitHub artifacts within the stated
+            evidence boundary to assess a developer's demonstrated engineering capability,
+            stewardship, ecosystem impact, growth trajectory, and more.
           </p>
-          <p>To use the tool:</p>
+          <p>To use the Skill:</p>
           <ol className="ml-4 list-decimal space-y-2">
             <li>
               <strong style={{ color: "var(--color-fg)" }}>Install the Skill</strong> — Add the
@@ -403,7 +403,8 @@ function InstructionsModal({ onClose }: { onClose: () => void }) {
             </li>
             <li>
               <strong style={{ color: "var(--color-fg)" }}>Provide a target</strong> — Supply a
-              GitHub username, an organization, or a set of repository URLs.
+              GitHub username, an organization, or repository URLs. Optionally provide a token,
+              then select private repositories to include.
             </li>
             <li>
               <strong style={{ color: "var(--color-fg)" }}>Review the report</strong> — Get a
@@ -421,10 +422,10 @@ function InstructionsModal({ onClose }: { onClose: () => void }) {
               ⚠ Privacy & Limitations
             </p>
             <p>
-              Only public GitHub data is used. No private repositories, issues, or metadata are
-              accessed. Results are as reliable as the evidence sample — sparse profiles yield lower
-              confidence scores. AI-assisted contributions are attributed separately. This tool does
-              not replace human judgment in hiring or promotion decisions.
+              Public GitHub data is used by default. Private repositories are inspected only when the
+              user provides a token and selects them. Results are as reliable as the evidence sample —
+              sparse profiles yield lower confidence scores. AI-assisted contributions are attributed
+              separately. This tool does not replace human judgment in hiring or promotion decisions.
             </p>
           </div>
         </div>
